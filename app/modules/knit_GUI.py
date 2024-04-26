@@ -1,0 +1,199 @@
+
+from modules.model import Model
+from modules.components.trace_render import TraceRender
+import pygame
+import os
+
+from modules.components.node_render import NodeRender
+
+class KnitGUI:
+    def __init__(self, model):
+
+        self.__model = model
+
+        os.environ['SDL_VIDEO_WINDOW_POS'] = '100,50'
+
+        self.__screen = None
+        self.__bufferScreen = None
+        self.__width = None
+        self.__height = None
+
+        self.__backgroundColor = (110, 106, 98)
+        self.__icon = pygame.image.load("C:/Users/Ethan/Documents/KNIT/app/modules/assets/icon.png")
+        self.__font = None
+
+        self.__appRunning = True
+
+        self.__nodes = None
+
+        self.__socketQueue = []
+
+    def getWidth(self):
+        if self.__width != None:
+            return self.__width
+        
+    def getHeight(self):
+        if self.__height != None:
+            return self.__height
+        
+    def getScreenObj(self):
+        if self.__screen != None:
+            return self.__screen
+        
+    def renderSocketPairs(self):
+        _isEven = len(self.__socketQueue) % 2 == 0
+        if _isEven:
+            for i in range(0, len(self.__socketQueue), 2):
+                pygame.draw.line(self.__bufferScreen, (0, 0, 0), (self.__socketQueue[i].getX(), self.__socketQueue[i].getY()),
+                                                                        (self.__socketQueue[i+1].getX(), self.__socketQueue[i+1].getY()), 2)
+        else:
+            for i in range(0, len(self.__socketQueue), 2):
+                if i == len(self.__socketQueue) - 1:
+                    print("__all socket pairs constructed__")
+                    break;
+                else:
+                    pygame.draw.line(self.__bufferScreen, (0, 0, 0), (self.__socketQueue[i].getX(), self.__socketQueue[i].getY()),
+                                                                        (self.__socketQueue[i+1].getX(), self.__socketQueue[i+1].getY()), 2)
+        
+    def constructNodes(self):
+        self.__nodes = []
+
+        for node in self.__model.getNodes():
+            nodeRendering = NodeRender(node, node.getX(), node.getY(), 100, 100)
+            self.__nodes.append(nodeRendering)
+            pygame.draw.rect(self.__bufferScreen, 
+                             nodeRendering.getColor(), 
+                             nodeRendering.getNodeRender(),
+                             border_radius=5,
+                             width=3)
+            
+            node = nodeRendering.getNode()
+            nodeIDText = self.__font.render(f"ID: {node.getIdentifier()}", True, (0, 0, 0))
+            nodeIDTextRect = nodeIDText.get_rect()
+            nodeIDTextRect.topleft = (nodeRendering.getX() + nodeRendering.getWidth() // 10, nodeRendering.getY() + nodeRendering.getHeight() // 10)
+            self.__bufferScreen.blit(nodeIDText, nodeIDTextRect)
+
+            nodeFUNCText = self.__font.render(f"FUNC: {node.getFunctionName()}", True, (0, 0, 0))
+            nodeFUNCTextRect = nodeFUNCText.get_rect()
+            nodeFUNCTextRect.topleft = (nodeRendering.getX() + nodeRendering.getWidth() // 10, nodeIDTextRect.y + nodeIDTextRect.height)
+            self.__bufferScreen.blit(nodeFUNCText, nodeFUNCTextRect)
+
+            nodeRendering.addSockets()
+            for socket in nodeRendering.getSockets():
+                pygame.draw.circle(self.__bufferScreen, socket.getColor(), (socket.getX(), socket.getY()), socket.getRadius())
+                
+        self.__screen.blit(self.__bufferScreen, (0,0))
+        pygame.display.update()
+            
+
+    def rerenderAll(self, singleNode=None):
+        self.__bufferScreen.fill(self.__backgroundColor)
+        for nodeRendering in self.__nodes:
+            pygame.draw.rect(self.__bufferScreen, 
+                    nodeRendering.getColor(), 
+                    nodeRendering.getNodeRender(),
+                    border_radius=5,
+                    width=3)
+
+            node = nodeRendering.getNode()
+            nodeIDText = self.__font.render(f"ID: {node.getIdentifier()}", True, (0, 0, 0))
+            nodeIDTextRect = nodeIDText.get_rect()
+            nodeIDTextRect.topleft = (nodeRendering.getX() + nodeRendering.getWidth() // 10, nodeRendering.getY() + nodeRendering.getHeight() // 10)
+            self.__bufferScreen.blit(nodeIDText, nodeIDTextRect)
+
+            nodeFUNCText = self.__font.render(f"FUNC: {node.getFunctionName()}", True, (0, 0, 0))
+            nodeFUNCTextRect = nodeFUNCText.get_rect()
+            nodeFUNCTextRect.topleft = (nodeRendering.getX() + nodeRendering.getWidth() // 10, nodeIDTextRect.y + nodeIDTextRect.height)
+            self.__bufferScreen.blit(nodeFUNCText, nodeFUNCTextRect)
+
+            nodeRendering.addSockets()
+            for socket in nodeRendering.getSockets():
+                pygame.draw.circle(self.__bufferScreen, socket.getColor(), (socket.getX(), socket.getY()), socket.getRadius())
+
+            self.renderSocketPairs()
+                
+        self.__screen.blit(self.__bufferScreen, (0,0))
+        pygame.display.update()
+        
+
+
+    def run(self):
+
+        pygame.init()
+
+        self.__font = pygame.font.Font(None, 18)
+
+        self.__screen = pygame.display.set_mode()
+
+        self.__width, self.__height = self.__screen.get_size()
+        self.__screen = pygame.display.set_mode((self.__width - 200, self.__height - 200))
+        self.__bufferScreen = pygame.Surface((self.__width, self.__height))
+        self.__bufferScreen.fill(self.__backgroundColor)
+
+        pygame.display.set_caption('K.N.I.T.')
+
+        self.__screen.fill(self.__backgroundColor)
+        pygame.display.set_icon(self.__icon)
+
+        self.constructNodes()
+
+        socketBufferHead = None
+        socketBufferTail = None
+
+        offsetX = 0
+        offsetY = 0
+        targetNode = None
+        dragging = False
+
+        while (self.__appRunning):
+            for event in pygame.event.get():
+
+                if event.type == pygame.QUIT:
+                    self.__appRunning = False
+                    self.__model.saveModel(self.__nodes)
+
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        self.__appRunning = False
+                        self.__model.saveModel(self.__nodes)
+
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    node_clicked = False
+                    for index, node in enumerate(self.__nodes):
+                        if node.getNodeRender().collidepoint(event.pos):
+                            dragging = True
+                            targetNode = index
+
+                            offsetX = event.pos[0] - node.getX()
+                            offsetY = event.pos[1] - node.getY()
+                            print("node clicked")
+                            node_clicked = False
+
+                        # for socket in node.getSockets():
+                        #     if socket.getSocketRender().collidepoint(event.pos):
+                        #         # add back if graph is linear/directed
+                        #         # if socket not in self.__socketQueue:
+                        #         # self.__socketQueue.append(socket)
+                        #         print("clicked")
+                        #         socket.setColor((0,0,0))
+                                
+                    if not node_clicked:
+                        for node in self.__nodes:
+                            for socket_index, socket in enumerate(node.getSockets()):
+                                if socket.getSocketRender().collidepoint(event.pos):
+                                    self.__socketQueue.append(socket)
+                                    print("Socket clicked:", socket_index)
+                    self.rerenderAll()
+
+
+                if event.type == pygame.MOUSEBUTTONUP:
+                    dragging = False
+
+                if event.type == pygame.MOUSEMOTION:
+                    if dragging:
+                        self.__nodes[targetNode].setX(event.pos[0] - offsetX)
+                        self.__nodes[targetNode].setY(event.pos[1] - offsetY)
+                        self.__nodes[targetNode].resetSockets()
+                        self.rerenderAll()
+            # print(len(self.__socketQueue), [str(socket) for socket in self.__socketQueue])  
+            pygame.display.update()

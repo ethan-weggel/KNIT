@@ -1,0 +1,52 @@
+{
+  "nodes": 3,
+  "1": {
+    "inputs": 1,
+    "outputs": 1,
+    "data": [],
+    "numinputs": 1,
+    "numoutputs": 1,
+    "requiresdata": -1,
+    "inputIdentifiers": [
+      -1
+    ],
+    "outputIdentifiers": [
+      2
+    ],
+    "x": 238,
+    "y": 466
+  },
+  "2": {
+    "inputs": 1,
+    "outputs": 1,
+    "data": [],
+    "numinputs": 1,
+    "numoutputs": 1,
+    "requiresdata": -1,
+    "inputIdentifiers": [
+      1
+    ],
+    "outputIdentifiers": [
+      3
+    ],
+    "x": 445,
+    "y": 294
+  },
+  "3": {
+    "inputs": 1,
+    "outputs": 1,
+    "data": [],
+    "numinputs": 1,
+    "numoutputs": 1,
+    "requiresdata": -1,
+    "inputIdentifiers": [
+      2
+    ],
+    "outputIdentifiers": [
+      -2
+    ],
+    "x": 612,
+    "y": 389
+  },
+  "zipFunctions": "C:\\Users\\Ethan\\Documents\\KNIT\\workflows\\models\\model1\\zipFunctions"
+}
