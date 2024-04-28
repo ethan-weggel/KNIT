@@ -18,8 +18,16 @@ class NodeRender:
 
         self.__nodeRender = pygame.Rect(self.__x, self.__y, self.__globalWidth, self.__globalHeight)
 
+        ## for node connections and renderings
         self.__sockets = []
         self.__traces = []
+
+        ## data calculated on first go around of adding sockets
+        ## used later in updateSockets()
+        self.__inputIncrement = 0
+        self.__outputIncrement = 0
+        self.__numberInputs = 0
+        self.__numberOutputs = 0
 
     def getNode(self):
         return self.__node
@@ -75,29 +83,49 @@ class NodeRender:
         return self.__sockets
     
     def addSockets(self):
-        numberInputSockets = len(self.__node.getInputIdentifiers())
-        numberOutputSockets = len(self.__node.getOutputIdentifiers())
-        if numberInputSockets != 0:
-            inputIncrement = self.__globalHeight // (numberInputSockets + 1)
-        if numberOutputSockets != 0:
-            outIncrement = self.__globalHeight // (numberOutputSockets + 1)
+        self.__numberInputs = len(self.__node.getInputIdentifiers())
+        self.__numberOutputs = len(self.__node.getOutputIdentifiers())
+        if self.__numberInputs != 0:
+            self.__inputIncrement = self.__globalHeight // (self.__numberInputs + 1)
+        if self.__numberOutputs != 0:
+            self.__outputIncrement = self.__globalHeight // (self.__numberOutputs + 1)
 
-        if numberInputSockets != 0:
+        if self.__numberInputs != 0:
             x = self.__x
             y = self.__y
-            for i in range(numberInputSockets):
-                y += inputIncrement
-                newSocketRender = SocketRender(self.__node, x, y)
+            for i in range(self.__numberInputs):
+                y += self.__inputIncrement
+                newSocketRender = SocketRender(self.__node, x, y, True)
                 self.__sockets.append(newSocketRender)
 
-        if numberOutputSockets != 0:
+        if self.__numberOutputs != 0:
             x = self.__x + self.__globalWidth
             y = self.__y
-            for i in range(numberOutputSockets):
-                y += outIncrement
-                newSocketRender = SocketRender(self.__node, x, y)
+            for i in range(self.__numberOutputs):
+                y += self.__outputIncrement
+                newSocketRender = SocketRender(self.__node, x, y, False)
                 self.__sockets.append(newSocketRender)
-            
+
+    def updateSockets(self):
+        scopedInputX = self.__x
+        scopedInputY = self.__y
+        scopedOutputX = self.__x + self.__globalWidth
+        scopedOutputY = self.__y
+        # print("new call")
+        for socket in self.__sockets:
+            if socket.isInput():
+                x = scopedInputX
+                scopedInputY += self.__inputIncrement
+                y = scopedInputY
+                socket.setX(x)
+                socket.setY(y)
+            else:
+                x = scopedOutputX 
+                scopedOutputY += self.__outputIncrement
+                y = scopedOutputY
+                socket.setX(x)
+                socket.setY(y)
+
     def getTraces(self):
         return self.__traces
     

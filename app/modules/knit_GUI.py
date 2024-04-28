@@ -40,6 +40,36 @@ class KnitGUI:
         if self.__screen != None:
             return self.__screen
         
+    def dequeueSocket(self, socket):
+        # _isEven = len(self.__socketQueue) % 2 == 0
+        # if _isEven:
+        #     for i in range(0, len(self.__socketQueue), 2):
+        #         if socket == self.__socketQueue[i]:
+        #             del self.__socketQueue[i]
+        #             del self.__socketQueue[i]
+        #             return
+        # else:
+        #     for i in range(0, len(self.__socketQueue), 2):
+        #         if socket == self.__socketQueue[i]:
+        #             self.__socketQueue.remove(socket)
+        #             return
+
+        _isEven = len(self.__socketQueue) % 2 == 0
+        if _isEven:
+            for i in range(0, len(self.__socketQueue), 2):
+                socketPair = (self.__socketQueue[i], self.__socketQueue[i+1])
+                if socket in socketPair:
+                    self.__socketQueue.remove(socketPair[0])
+                    self.__socketQueue.remove(socketPair[1])
+                    return
+        else:
+            for i in range(0, len(self.__socketQueue), 2):
+                if socket == self.__socketQueue[i]:
+                    self.__socketQueue.remove(socket)
+                    return
+                    
+        print("__socket queue refactored__")
+        
     def renderSocketPairs(self):
         _isEven = len(self.__socketQueue) % 2 == 0
         if _isEven:
@@ -49,12 +79,12 @@ class KnitGUI:
         else:
             for i in range(0, len(self.__socketQueue), 2):
                 if i == len(self.__socketQueue) - 1:
-                    print("__all socket pairs constructed__")
                     break;
                 else:
                     pygame.draw.line(self.__bufferScreen, (0, 0, 0), (self.__socketQueue[i].getX(), self.__socketQueue[i].getY()),
                                                                         (self.__socketQueue[i+1].getX(), self.__socketQueue[i+1].getY()), 2)
-        
+        print("__all socket pairs reconstructed__")
+
     def constructNodes(self):
         self.__nodes = []
 
@@ -81,6 +111,11 @@ class KnitGUI:
             nodeRendering.addSockets()
             for socket in nodeRendering.getSockets():
                 pygame.draw.circle(self.__bufferScreen, socket.getColor(), (socket.getX(), socket.getY()), socket.getRadius())
+
+            ## going into node data from reader, seeing connections
+            ## adding to the socket queue and then rendering, this ensures
+            ## dynamic loading, lighter models, and no json entry.
+
                 
         self.__screen.blit(self.__bufferScreen, (0,0))
         pygame.display.update()
@@ -106,7 +141,7 @@ class KnitGUI:
             nodeFUNCTextRect.topleft = (nodeRendering.getX() + nodeRendering.getWidth() // 10, nodeIDTextRect.y + nodeIDTextRect.height)
             self.__bufferScreen.blit(nodeFUNCText, nodeFUNCTextRect)
 
-            nodeRendering.addSockets()
+            nodeRendering.updateSockets()
             for socket in nodeRendering.getSockets():
                 pygame.draw.circle(self.__bufferScreen, socket.getColor(), (socket.getX(), socket.getY()), socket.getRadius())
 
@@ -169,20 +204,17 @@ class KnitGUI:
                             print("node clicked")
                             node_clicked = False
 
-                        # for socket in node.getSockets():
-                        #     if socket.getSocketRender().collidepoint(event.pos):
-                        #         # add back if graph is linear/directed
-                        #         # if socket not in self.__socketQueue:
-                        #         # self.__socketQueue.append(socket)
-                        #         print("clicked")
-                        #         socket.setColor((0,0,0))
-                                
-                    if not node_clicked:
-                        for node in self.__nodes:
-                            for socket_index, socket in enumerate(node.getSockets()):
-                                if socket.getSocketRender().collidepoint(event.pos):
+                        for socket in node.getSockets():
+                            if socket.getSocketRender().collidepoint(event.pos):
+                                ## if socket already in queue and it is clicked again,
+                                ## call on function to remove from queue. If even elem in queue
+                                ## remove the socket and the one paired with it in sliding window,
+                                ## otherwise just remove that socket.
+                                if socket in self.__socketQueue:
+                                    self.dequeueSocket(socket)
+                                else:
                                     self.__socketQueue.append(socket)
-                                    print("Socket clicked:", socket_index)
+                                
                     self.rerenderAll()
 
 
@@ -193,7 +225,7 @@ class KnitGUI:
                     if dragging:
                         self.__nodes[targetNode].setX(event.pos[0] - offsetX)
                         self.__nodes[targetNode].setY(event.pos[1] - offsetY)
-                        self.__nodes[targetNode].resetSockets()
+                        #self.__nodes[targetNode].updateSockets()
                         self.rerenderAll()
             # print(len(self.__socketQueue), [str(socket) for socket in self.__socketQueue])  
             pygame.display.update()

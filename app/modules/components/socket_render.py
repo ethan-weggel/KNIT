@@ -2,7 +2,7 @@ import pygame
 
 class SocketRender:
     __renderID = 1
-    def __init__(self, node, x, y, radius=5, color=(245, 173, 66)):
+    def __init__(self, node, x, y, isInput, radius=5, color=(245, 173, 66)):
         self.__x = x
         self.__y = y
         self.__radius = radius
@@ -15,6 +15,8 @@ class SocketRender:
         
         self.__isOccupied = False
         self.__trace = None
+
+        self.__isInputSocket = isInput
 
         self.__id = SocketRender.__renderID
         SocketRender.__renderID += 1
@@ -90,6 +92,9 @@ class SocketRender:
     
     def removeTrace(self):
         self.__trace = None
+
+    def isInput(self):
+        return self.__isInputSocket
 
     
     
