@@ -84,27 +84,27 @@ class BaseNode(ABC):
         else:
             return self.__outputSockets[index]
         
-    def plugInput(self, obj):
-        self.__inputs.append(obj)
+    def plugInput(self, node):
+        self.__inputs.append(node)
 
-    def plugOutput(self, obj):
-        self.__outputs.append(obj)
+    def plugOutput(self, node):
+        self.__outputs.append(node)
 
-    def unplugInput(self, index=None, obj=None):
-        if index == None and obj != None:
-            self.__inputs.remove(obj)
-        elif index != None and obj == None:
+    def unplugInput(self, index=None, node=None):
+        if index == None and node != None:
+            self.__inputs.remove(node)
+        elif index != None and node == None:
             del self.__inputs[index]
         else:
-            raise ValueError("Index or Object are either both set or incorrect values.")
+            raise ValueError("Index or Node are either both set or incorrect values.")
         
-    def unplugOutput(self, index=None, obj=None):
-        if index == None and obj != None:
-            self.__outputs.remove(obj)
-        elif index != None and obj == None:
+    def unplugOutput(self, index=None, node=None):
+        if index == None and node != None:
+            self.__outputs.remove(node)
+        elif index != None and node == None:
             del self.__outputs[index]
         else:
-            raise ValueError("Index or Object are either both set or incorrect values.")
+            raise ValueError("Index or Node are either both set or incorrect values.")
         
     def getIdentifier(self):
         return self.__identifier
