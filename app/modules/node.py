@@ -30,12 +30,6 @@ class BaseNode(ABC):
         else:
             for key in kwargs.keys():
                 match key.lower():
-                    # case "inputs":
-                    #     for element in kwargs["inputs"]:
-                    #         self.__inputSockets.append(element)
-                    # case "outputs":
-                    #     for element in kwargs["outputs"]:
-                    #         self.__outputSockets.append(element)
                     case "data":
                         for element in kwargs["data"]:
                             self.__data.append(element)
@@ -141,6 +135,18 @@ class BaseNode(ABC):
     
     def getOutputIdentifiers(self):
         return self.__outputIdentifiers
+    
+    def getSocketLoadingInputs(self):
+        return self.__inputIdentifiersSocketLoading
+    
+    def getSocketLoadingOutputs(self):
+        return self.__outputIdentifiersSocketLoading
+    
+    def deductNode(self, value, inputIdentifier=True):
+        if inputIdentifier:
+            self.__inputIdentifiersSocketLoading.remove(value)
+        else:
+            self.__inputIdentifiersSocketLoading.remove(value)
     
     def setFunction(self, function):
         self.__function = function

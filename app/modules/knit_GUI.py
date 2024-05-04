@@ -26,7 +26,7 @@ class KnitGUI:
 
         self.__nodes = None
 
-        self.__socketQueue = []
+        self.__socketQueue = self.__model.getSocketQueue()
 
     def getWidth(self):
         if self.__width != None:
@@ -39,40 +39,6 @@ class KnitGUI:
     def getScreenObj(self):
         if self.__screen != None:
             return self.__screen
-        
-    def enqueueFromReader(self):
-        tracerQueue = []
-        for node in self.__model.getNodes():
-            nodeInputOutputQueue = []
-            nodeInputOutputQueue.append(node.getInputIdentifiers())
-            nodeInputOutputQueue.append(node.getOutputIdentifiers())
-            tracerQueue.append(nodeInputOutputQueue)
-        
-        print(tracerQueue)
-
-        for nodeQueues in tracerQueue:
-            inputQueue = nodeQueues[0]
-            outputQueue = nodeQueues[1]
-            useInput = False
-            useOutput = False
-            if len(inputQueue) == 1 and inputQueue[0] < 0:
-                useOutput = True
-            elif len(outputQueue) == 1 and outputQueue[0] < 0:
-                useInput = True
-            else:
-                useInput = True
-                useOutput = True
-            
-            if useInput:
-                for inputId in inputQueue:
-                    for node in self.__model.getNodes():
-                        if node.getIdentifier() == inputId:
-                            for socket in node.getInputSockets():
-                                if socket.isInput():
-                                    self.__socketQueue.append(socket)
-                                    break;
-                                break;
-                            break;
 
         
     def dequeueSocket(self, socket):
@@ -134,9 +100,12 @@ class KnitGUI:
             for socket in nodeRendering.getSockets():
                 pygame.draw.circle(self.__bufferScreen, socket.getColor(), (socket.getX(), socket.getY()), socket.getRadius())
 
-            ## going into node data from reader, seeing connections
-            ## adding to the socket queue and then rendering, this ensures
-            ## dynamic loading, lighter models, and no json entry.
+            for socket in nodeRendering.getSockets():
+                for idIndex, queueId in enumerate(self.__socketQueue):
+                    if socket.getRenderId() == queueId:
+                        self.__socketQueue[idIndex] = socket
+
+        self.renderSocketPairs()
 
                 
         self.__screen.blit(self.__bufferScreen, (0,0))
@@ -207,12 +176,12 @@ class KnitGUI:
 
                 if event.type == pygame.QUIT:
                     self.__appRunning = False
-                    self.__model.saveModel(self.__nodes)
+                    self.__model.saveModel(self.__nodes, self.__socketQueue)
 
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         self.__appRunning = False
-                        self.__model.saveModel(self.__nodes)
+                        self.__model.saveModel(self.__nodes, self.__socketQueue)
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     node_clicked = False
@@ -250,6 +219,6 @@ class KnitGUI:
                         #self.__nodes[targetNode].updateSockets()
                         self.rerenderAll()
             # print(len(self.__socketQueue), [str(socket) for socket in self.__socketQueue])  
-            # self.enqueueFromReader()
+            #self.enqueueFromReader()
             pygame.display.update()
-            # exit()
+            #exit()
