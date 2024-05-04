@@ -107,6 +107,9 @@ class Model:
 
         self.__reader.setData(self.__data)
         self.__reader.saveModel()
+    
+    def executeWorkflow(self):
+        pass
 
     
 
