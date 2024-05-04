@@ -193,3 +193,46 @@ class Node(BaseNode):
             self.setOutgoing(None)
         else:
             print(f"Current node ({self.getIdentifier()}) is None.")
+
+
+class EntryPoint:
+    def __init__(self, hashVal, inputNode):
+        self.__hash = hashVal
+
+        self.__inputNode = inputNode
+
+    def getHashId(self):
+        return self.__hash
+    
+    def setHashId(self, value):
+        self.__hash = value
+
+    def getInputNode(self):
+        return self.__inputNode
+    
+    def setInputNode(self, nodeObj):
+        self.__inputNode = nodeObj
+
+    def onStart(self, func):
+        func()
+
+class TerminationPoint:
+    def __init__(self, hashVal, outputNode):
+        self.__hash = hashVal
+
+        self.__outputNode = outputNode
+
+    def getHashId(self):
+        return self.__hash
+    
+    def setHashId(self, value):
+        self.__hash = value
+
+    def getOutputNode(self):
+        return self.__outputNode
+    
+    def setOutputNode(self, nodeObj):
+        self.__outputNode = nodeObj
+
+    def onStart(self, func):
+        func()

@@ -18,6 +18,9 @@ class Model:
 
         self.__nodes = []
         self.__functions = {}
+
+        self.__entryPoint = None
+        self.__terminationPoint = None
         
         # print(self.__data)
         for i in range(1, self.__data["nodes"]+1):
