@@ -12,8 +12,8 @@
       2,
       3
     ],
-    "x": 78,
-    "y": 223
+    "x": 76,
+    "y": 258
   },
   "2": {
     "data": [],
@@ -26,8 +26,8 @@
     "outputIdentifiers": [
       3
     ],
-    "x": 440,
-    "y": 359
+    "x": 283,
+    "y": 433
   },
   "3": {
     "data": [],
@@ -41,8 +41,8 @@
     "outputIdentifiers": [
       -2
     ],
-    "x": 891,
-    "y": 102
+    "x": 553,
+    "y": 258
   },
   "zipFunctions": "C:\\Users\\Ethan\\Documents\\KNIT\\workflows\\models\\model1\\zipFunctions"
 }

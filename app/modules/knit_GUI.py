@@ -40,20 +40,42 @@ class KnitGUI:
         if self.__screen != None:
             return self.__screen
         
-    def dequeueSocket(self, socket):
-        # _isEven = len(self.__socketQueue) % 2 == 0
-        # if _isEven:
-        #     for i in range(0, len(self.__socketQueue), 2):
-        #         if socket == self.__socketQueue[i]:
-        #             del self.__socketQueue[i]
-        #             del self.__socketQueue[i]
-        #             return
-        # else:
-        #     for i in range(0, len(self.__socketQueue), 2):
-        #         if socket == self.__socketQueue[i]:
-        #             self.__socketQueue.remove(socket)
-        #             return
+    def enqueueFromReader(self):
+        tracerQueue = []
+        for node in self.__model.getNodes():
+            nodeInputOutputQueue = []
+            nodeInputOutputQueue.append(node.getInputIdentifiers())
+            nodeInputOutputQueue.append(node.getOutputIdentifiers())
+            tracerQueue.append(nodeInputOutputQueue)
+        
+        print(tracerQueue)
 
+        for nodeQueues in tracerQueue:
+            inputQueue = nodeQueues[0]
+            outputQueue = nodeQueues[1]
+            useInput = False
+            useOutput = False
+            if len(inputQueue) == 1 and inputQueue[0] < 0:
+                useOutput = True
+            elif len(outputQueue) == 1 and outputQueue[0] < 0:
+                useInput = True
+            else:
+                useInput = True
+                useOutput = True
+            
+            if useInput:
+                for inputId in inputQueue:
+                    for node in self.__model.getNodes():
+                        if node.getIdentifier() == inputId:
+                            for socket in node.getInputSockets():
+                                if socket.isInput():
+                                    self.__socketQueue.append(socket)
+                                    break;
+                                break;
+                            break;
+
+        
+    def dequeueSocket(self, socket):
         _isEven = len(self.__socketQueue) % 2 == 0
         if _isEven:
             for i in range(0, len(self.__socketQueue), 2):
@@ -228,4 +250,6 @@ class KnitGUI:
                         #self.__nodes[targetNode].updateSockets()
                         self.rerenderAll()
             # print(len(self.__socketQueue), [str(socket) for socket in self.__socketQueue])  
+            # self.enqueueFromReader()
             pygame.display.update()
+            # exit()
