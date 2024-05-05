@@ -9,48 +9,39 @@
       -1
     ],
     "outputIdentifiers": [
-      2,
-      3
+      2
     ],
-    "x": 177,
-    "y": 200
+    "x": 221,
+    "y": 160
   },
   "2": {
     "data": [],
     "numinputs": 1,
     "numoutputs": 1,
-    "requiresdata": -1,
+    "requiresdata": 1,
     "inputIdentifiers": [
       1
     ],
     "outputIdentifiers": [
       3
     ],
-    "x": 446,
-    "y": 278
+    "x": 463,
+    "y": 155
   },
   "3": {
     "data": [],
     "numinputs": 1,
     "numoutputs": 1,
-    "requiresdata": -1,
+    "requiresdata": 1,
     "inputIdentifiers": [
-      1,
       2
     ],
     "outputIdentifiers": [
       -2
     ],
-    "x": 785,
-    "y": 209
+    "x": 799,
+    "y": 156
   },
   "zipFunctions": "C:\\Users\\Ethan\\Documents\\KNIT\\workflows\\models\\model1\\zipFunctions",
-  "socketQueue": [
-    2,
-    3,
-    4,
-    6,
-    1,
-    5
-  ]
+  "socketQueue": []
 }

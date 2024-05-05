@@ -62,6 +62,9 @@ class BaseNode(ABC):
         for identifier in self.__outputIdentifiers:
             if identifier == -2:
                 self.__type = "END"
+    
+    def __str__(self):
+        return f"NODE: {self.__identifier}"
 
     def getType(self):
         return self.__type
@@ -79,27 +82,31 @@ class BaseNode(ABC):
             return self.__outputSockets[index]
         
     def plugInput(self, node):
-        self.__inputs.append(node)
+        self.__inputSockets.append(node)
 
     def plugOutput(self, node):
-        self.__outputs.append(node)
+        self.__outputSockets.append(node)
 
     def unplugInput(self, index=None, node=None):
         if index == None and node != None:
-            self.__inputs.remove(node)
+            self.__inputSockets.remove(node)
         elif index != None and node == None:
-            del self.__inputs[index]
+            del self.__inputSockets[index]
         else:
             raise ValueError("Index or Node are either both set or incorrect values.")
         
     def unplugOutput(self, index=None, node=None):
         if index == None and node != None:
-            self.__outputs.remove(node)
+            self.__outputSockets.remove(node)
         elif index != None and node == None:
-            del self.__outputs[index]
+            del self.__outputSockets[index]
         else:
             raise ValueError("Index or Node are either both set or incorrect values.")
         
+    def resetSockets(self):
+        self.__inputSockets = []
+        self.__outputSockets = []
+
     def getIdentifier(self):
         return self.__identifier
     
@@ -117,6 +124,15 @@ class BaseNode(ABC):
 
     def getData(self):
         return self.__data
+    
+    def setData(self, value):
+        self.__data = value
+    
+    def addData(self, value):
+        self.__data.append(value)
+
+    def resetData(self):
+        self.__data = []
     
     def getX(self):
         return self.__x
@@ -159,6 +175,9 @@ class BaseNode(ABC):
 
     def getFunctionName(self):
         return self.__functionName
+    
+    def requiresData(self):
+        return self.__requiresData
 
     @abstractmethod
     def process(self):
@@ -176,27 +195,29 @@ class Node(BaseNode):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-    def process(self, executingFunc):
-        self.__outgoing = executingFunc(self)
+    def process(self):
+        self.setOutgoing(self.getFunction()(self))
     
     def receive(self):
         try:
-            # received obj is iterable
-            iter(self.__received)
-            for element in self.__received:
-                self.__data.append(element)
-            self.__received = None
+            # test to see if received obj is iterable
+            iter(self.getReceived())
+            for element in self.getReceived():
+                self.addData(element)
+            # self.setReceived(None)
         except TypeError:
             # received obj is not iterable
-            self.__data.append(self.__received)
-            self.__received = None
-
+            self.setData(self.getReceived())
+            # self.setReceived(None)
     
     def send(self):
-        if self.__outgoing != None:
-            for nodePtr in self.getOutputs():
-                nodePtr.setReceived(self.__outgoing)
-            self.setOutgoing(None)
+        if self.getOutgoing() is not None:
+            for nodePtr in self.getOutputSockets():
+                nodePtr.setReceived(self.getOutgoing())
+            # self.setOutgoing(None)
+        elif self.getType() == "END":
+            print("__workflow executed__")
+            return
         else:
             print(f"Current node ({self.getIdentifier()}) is None.")
 

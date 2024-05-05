@@ -3,7 +3,7 @@ from modules.components.socket_render import SocketRender
 
 class NodeRender:
     __renderID = 1
-    def __init__(self, node, coorX, coorY, globalWidth=50, globalHeight=50):
+    def __init__(self, node, coorX, coorY, globalWidth=65, globalHeight=65):
         self.__renderID = NodeRender.__renderID
         NodeRender.__renderID += 1
 
