@@ -4,6 +4,7 @@ import importlib
 import inspect
 import os
 import re
+import threading
 
 class Model:
     __id = 1
@@ -19,10 +20,13 @@ class Model:
         self.__socketQueue = self.__data["socketQueue"]
 
         self.__nodes = []
+        self.__nodesForZip = self.__nodes
         self.__functions = {}
 
         self.__entryPoint = None
         self.__terminationPoint = None
+
+        self.__threads = []
         
         # print(self.__data)
         for i in range(1, self.__data["nodes"]+1):
@@ -72,7 +76,7 @@ class Model:
             with open(filePath, 'r') as file:
                 functionText = file.read()
                 functionName = self.getfunctionName(functionText)
-                print(functionName)
+                ##print(functionName)
                 try:
                     exec(functionText, globals())
                     parsedFunction = globals()[functionName]
@@ -109,7 +113,34 @@ class Model:
         self.__reader.saveModel()
     
     def executeWorkflow(self):
-        pass
+        self.__threads = []
+        allNodesZipped = True
+        for node in self.__nodes:
+            if node.getFunction() == None:
+                allNodesZipped = False
+                print("<<<NODES MISSING ZIP FUNCTIONS!>>>")
+                return
+        if allNodesZipped:
+            for node in self.__nodes:
+                newThread = threading.Thread(target=node.process)
+                self.__threads.append(newThread)
+            print("__ALL THREADS CREATED__")
+            print("zipping...")
+
+        nodeThreadZIP = zip(self.__nodesForZip, self.__threads)
+
+        for node, thread in nodeThreadZIP:
+            thread.start()
+            thread.join()
+            node.send()
+            for childSocket in node.getOutputSockets():
+                childSocket.receive()
+        
+        for node in self.__nodes:
+            node.resetData()
+            
+
+        
 
     
 
