@@ -16,8 +16,13 @@ class Model:
 
         self.__nodeCount = self.__data["nodes"]
 
+        self.__socketQueue = self.__data["socketQueue"]
+
         self.__nodes = []
         self.__functions = {}
+
+        self.__entryPoint = None
+        self.__terminationPoint = None
         
         # print(self.__data)
         for i in range(1, self.__data["nodes"]+1):
@@ -50,6 +55,12 @@ class Model:
         if match:
             function_name = match.group(1)
             return function_name
+    
+    def getSocketQueue(self):
+        return self.__socketQueue
+    
+    def setSocketQueue(self, queue):
+        self.__socketQueue = queue
 
     def getFunctions(self):
         return self.__functions
@@ -74,7 +85,7 @@ class Model:
             node.setFunction(self.__functions[function])
             node.setFunctionName(function)
 
-    def saveModel(self, nodeRenderings):
+    def saveModel(self, nodeRenderings, socketRenderings):
         '''
         NOTE: this save feature modifies existing data dict and passes back to 
         reader which then saves using its own save feature. Only changes node 
@@ -90,9 +101,15 @@ class Model:
         for index, node in enumerate(self.__nodes, start=1):
             self.__data[str(index)]["x"] = node.getX()
             self.__data[str(index)]["y"] = node.getY()
+        
+        socketQueueIDs = [socket.getRenderId() for socket in socketRenderings]
+        self.__data["socketQueue"] = socketQueueIDs
 
         self.__reader.setData(self.__data)
         self.__reader.saveModel()
+    
+    def executeWorkflow(self):
+        pass
 
     
 

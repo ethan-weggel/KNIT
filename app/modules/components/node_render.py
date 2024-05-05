@@ -90,7 +90,7 @@ class NodeRender:
         if self.__numberOutputs != 0:
             self.__outputIncrement = self.__globalHeight // (self.__numberOutputs + 1)
 
-        if self.__numberInputs != 0:
+        if self.__numberInputs != 0 and self.__node.getInputIdentifiers()[0] != -1:
             x = self.__x
             y = self.__y
             for i in range(self.__numberInputs):
@@ -98,7 +98,7 @@ class NodeRender:
                 newSocketRender = SocketRender(self.__node, x, y, True)
                 self.__sockets.append(newSocketRender)
 
-        if self.__numberOutputs != 0:
+        if self.__numberOutputs != 0 and self.__node.getOutputIdentifiers()[0] != -2:
             x = self.__x + self.__globalWidth
             y = self.__y
             for i in range(self.__numberOutputs):

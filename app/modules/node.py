@@ -30,12 +30,6 @@ class BaseNode(ABC):
         else:
             for key in kwargs.keys():
                 match key.lower():
-                    # case "inputs":
-                    #     for element in kwargs["inputs"]:
-                    #         self.__inputSockets.append(element)
-                    # case "outputs":
-                    #     for element in kwargs["outputs"]:
-                    #         self.__outputSockets.append(element)
                     case "data":
                         for element in kwargs["data"]:
                             self.__data.append(element)
@@ -84,27 +78,27 @@ class BaseNode(ABC):
         else:
             return self.__outputSockets[index]
         
-    def plugInput(self, obj):
-        self.__inputs.append(obj)
+    def plugInput(self, node):
+        self.__inputs.append(node)
 
-    def plugOutput(self, obj):
-        self.__outputs.append(obj)
+    def plugOutput(self, node):
+        self.__outputs.append(node)
 
-    def unplugInput(self, index=None, obj=None):
-        if index == None and obj != None:
-            self.__inputs.remove(obj)
-        elif index != None and obj == None:
+    def unplugInput(self, index=None, node=None):
+        if index == None and node != None:
+            self.__inputs.remove(node)
+        elif index != None and node == None:
             del self.__inputs[index]
         else:
-            raise ValueError("Index or Object are either both set or incorrect values.")
+            raise ValueError("Index or Node are either both set or incorrect values.")
         
-    def unplugOutput(self, index=None, obj=None):
-        if index == None and obj != None:
-            self.__outputs.remove(obj)
-        elif index != None and obj == None:
+    def unplugOutput(self, index=None, node=None):
+        if index == None and node != None:
+            self.__outputs.remove(node)
+        elif index != None and node == None:
             del self.__outputs[index]
         else:
-            raise ValueError("Index or Object are either both set or incorrect values.")
+            raise ValueError("Index or Node are either both set or incorrect values.")
         
     def getIdentifier(self):
         return self.__identifier
@@ -141,6 +135,18 @@ class BaseNode(ABC):
     
     def getOutputIdentifiers(self):
         return self.__outputIdentifiers
+    
+    def getSocketLoadingInputs(self):
+        return self.__inputIdentifiersSocketLoading
+    
+    def getSocketLoadingOutputs(self):
+        return self.__outputIdentifiersSocketLoading
+    
+    def deductNode(self, value, inputIdentifier=True):
+        if inputIdentifier:
+            self.__inputIdentifiersSocketLoading.remove(value)
+        else:
+            self.__inputIdentifiersSocketLoading.remove(value)
     
     def setFunction(self, function):
         self.__function = function
@@ -193,3 +199,46 @@ class Node(BaseNode):
             self.setOutgoing(None)
         else:
             print(f"Current node ({self.getIdentifier()}) is None.")
+
+
+class EntryPoint:
+    def __init__(self, hashVal, inputNode):
+        self.__hash = hashVal
+
+        self.__inputNode = inputNode
+
+    def getHashId(self):
+        return self.__hash
+    
+    def setHashId(self, value):
+        self.__hash = value
+
+    def getInputNode(self):
+        return self.__inputNode
+    
+    def setInputNode(self, nodeObj):
+        self.__inputNode = nodeObj
+
+    def onStart(self, func):
+        func()
+
+class TerminationPoint:
+    def __init__(self, hashVal, outputNode):
+        self.__hash = hashVal
+
+        self.__outputNode = outputNode
+
+    def getHashId(self):
+        return self.__hash
+    
+    def setHashId(self, value):
+        self.__hash = value
+
+    def getOutputNode(self):
+        return self.__outputNode
+    
+    def setOutputNode(self, nodeObj):
+        self.__outputNode = nodeObj
+
+    def onStart(self, func):
+        func()

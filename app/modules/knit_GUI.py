@@ -26,7 +26,7 @@ class KnitGUI:
 
         self.__nodes = None
 
-        self.__socketQueue = []
+        self.__socketQueue = self.__model.getSocketQueue()
 
     def getWidth(self):
         if self.__width != None:
@@ -39,21 +39,9 @@ class KnitGUI:
     def getScreenObj(self):
         if self.__screen != None:
             return self.__screen
+
         
     def dequeueSocket(self, socket):
-        # _isEven = len(self.__socketQueue) % 2 == 0
-        # if _isEven:
-        #     for i in range(0, len(self.__socketQueue), 2):
-        #         if socket == self.__socketQueue[i]:
-        #             del self.__socketQueue[i]
-        #             del self.__socketQueue[i]
-        #             return
-        # else:
-        #     for i in range(0, len(self.__socketQueue), 2):
-        #         if socket == self.__socketQueue[i]:
-        #             self.__socketQueue.remove(socket)
-        #             return
-
         _isEven = len(self.__socketQueue) % 2 == 0
         if _isEven:
             for i in range(0, len(self.__socketQueue), 2):
@@ -112,9 +100,12 @@ class KnitGUI:
             for socket in nodeRendering.getSockets():
                 pygame.draw.circle(self.__bufferScreen, socket.getColor(), (socket.getX(), socket.getY()), socket.getRadius())
 
-            ## going into node data from reader, seeing connections
-            ## adding to the socket queue and then rendering, this ensures
-            ## dynamic loading, lighter models, and no json entry.
+            for socket in nodeRendering.getSockets():
+                for idIndex, queueId in enumerate(self.__socketQueue):
+                    if socket.getRenderId() == queueId:
+                        self.__socketQueue[idIndex] = socket
+
+        self.renderSocketPairs()
 
                 
         self.__screen.blit(self.__bufferScreen, (0,0))
@@ -185,12 +176,12 @@ class KnitGUI:
 
                 if event.type == pygame.QUIT:
                     self.__appRunning = False
-                    self.__model.saveModel(self.__nodes)
+                    self.__model.saveModel(self.__nodes, self.__socketQueue)
 
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         self.__appRunning = False
-                        self.__model.saveModel(self.__nodes)
+                        self.__model.saveModel(self.__nodes, self.__socketQueue)
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     node_clicked = False
@@ -228,4 +219,6 @@ class KnitGUI:
                         #self.__nodes[targetNode].updateSockets()
                         self.rerenderAll()
             # print(len(self.__socketQueue), [str(socket) for socket in self.__socketQueue])  
+            #self.enqueueFromReader()
             pygame.display.update()
+            #exit()

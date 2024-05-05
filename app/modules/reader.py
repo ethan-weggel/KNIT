@@ -14,7 +14,7 @@ class Reader:
     def readModel(self):
         with open(self.__path, "r") as file:
             self.__data = json.load(file)
-        self.__data['nodes'] = 3
+        # self.__data['nodes'] = 3
 
     def saveModel(self):
         with open(self.__path, "w") as file:
