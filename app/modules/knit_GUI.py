@@ -284,6 +284,6 @@ class KnitGUI:
             # print(len(self.__socketQueue), [str(socket) for socket in self.__socketQueue])  
             #self.enqueueFromReader()
             #print([str(node) for node in self.__model.getNodes()[2].getInputSockets()])
-            print([str(socket) for socket in self.__socketQueue], f"Dragging: {dragging}", f"Just dequeued: {justDequeued}")
+            # print([str(socket) for socket in self.__socketQueue], f"Dragging: {dragging}", f"Just dequeued: {justDequeued}")
             pygame.display.update()
             #exit()
