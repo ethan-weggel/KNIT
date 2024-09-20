@@ -8,11 +8,7 @@
         "path": "C:\\Users\\Ethan\\Documents\\KNIT\\workflows\\models\\model2\\model-two-workflow-two.json"
     },
     "model-three-#0003": {
-        "description": "News scraper for daily news summary for retrieval augmented generation [RAG] of Katherine's responses",
-        "path": ""
-    },
-    "model-four-#0004": {
-        "description": "Interface for hashed cache of spider bot wikipedia inventory for retrieval augmented generation [RAG] of Katherine's reponses",
+        "description": "Generic RAG Engine [default info is directed from wikipedia]",
         "path": ""
     }
 }
