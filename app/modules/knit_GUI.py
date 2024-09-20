@@ -21,7 +21,7 @@ class KnitGUI:
         self.__height = None
 
         self.__backgroundColor = (110, 106, 98)
-        self.__icon = pygame.image.load("C:/Users/Ethan/Documents/KNIT/app/modules/assets/icon.png")
+        self.__icon = pygame.image.load("C:\\Users\\ewegg\\OneDrive\\Documents\\Python_Scripts\\KNIT\KNIT\\app\\modules\\assets\\icon.png")
         self.__font = None
 
         self.__appRunning = True
@@ -284,6 +284,6 @@ class KnitGUI:
             # print(len(self.__socketQueue), [str(socket) for socket in self.__socketQueue])  
             #self.enqueueFromReader()
             #print([str(node) for node in self.__model.getNodes()[2].getInputSockets()])
-            print([str(socket) for socket in self.__socketQueue], f"Dragging: {dragging}", f"Just dequeued: {justDequeued}")
+            #print([str(socket) for socket in self.__socketQueue], f"Dragging: {dragging}", f"Just dequeued: {justDequeued}")
             pygame.display.update()
             #exit()

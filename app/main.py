@@ -4,7 +4,7 @@ from modules.model import Model
 from modules.components.button import Button
 
 
-reader = Reader("C:/Users/Ethan/Documents/KNIT/workflows/models/model1/model-one-workflow-one.json")
+reader = Reader("C:\\Users\\ewegg\\OneDrive\\Documents\\Python_Scripts\\KNIT\\KNIT\\workflows\\models\\model1\\model-one-workflow-one.json")
 reader.readModel()
 model = Model(reader)
 model.loadZipFunctions()

@@ -25,8 +25,8 @@
     "outputIdentifiers": [
       3
     ],
-    "x": 463,
-    "y": 155
+    "x": 491,
+    "y": 161
   },
   "3": {
     "data": [],
@@ -42,6 +42,11 @@
     "x": 799,
     "y": 156
   },
-  "zipFunctions": "C:\\Users\\Ethan\\Documents\\KNIT\\workflows\\models\\model1\\zipFunctions",
-  "socketQueue": []
+  "zipFunctions": "C:\\Users\\ewegg\\OneDrive\\Documents\\Python_Scripts\\KNIT\\KNIT\\workflows\\models\\model1\\zipFunctions",
+  "socketQueue": [
+    1,
+    2,
+    4,
+    3
+  ]
 }
