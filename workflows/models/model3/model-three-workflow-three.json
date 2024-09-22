@@ -1,0 +1,70 @@
+{
+  "nodes": 4,
+  "1": {
+    "data": [
+      "Index placeholder."
+    ],
+    "numinputs": 1,
+    "numoutputs": 1,
+    "requiresdata": 1,
+    "inputIdentifiers": [
+      -1
+    ],
+    "outputIdentifiers": [
+      2
+    ],
+    "x": 144,
+    "y": 403
+  },
+  "2": {
+    "data": [],
+    "numinputs": 1,
+    "numoutputs": 1,
+    "requiresdata": -1,
+    "inputIdentifiers": [
+      1
+    ],
+    "outputIdentifiers": [
+      3
+    ],
+    "x": 352,
+    "y": 202
+  },
+  "3": {
+    "data": [],
+    "numinputs": 1,
+    "numoutputs": 1,
+    "requiresdata": -1,
+    "inputIdentifiers": [
+      2
+    ],
+    "outputIdentifiers": [
+      4
+    ],
+    "x": 560,
+    "y": 400
+  },
+  "4": {
+    "data": [],
+    "numinputs": 1,
+    "numoutputs": 1,
+    "requiresdata": -1,
+    "inputIdentifiers": [
+      2
+    ],
+    "outputIdentifiers": [
+      -1
+    ],
+    "x": 755,
+    "y": 203
+  },
+  "zipFunctions": "KNIT\\workflows\\models\\model3\\zipFunctions",
+  "socketQueue": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+  ]
+}

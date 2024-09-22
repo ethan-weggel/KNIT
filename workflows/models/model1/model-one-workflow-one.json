@@ -11,8 +11,8 @@
     "outputIdentifiers": [
       2
     ],
-    "x": 168,
-    "y": 199
+    "x": 153,
+    "y": 207
   },
   "2": {
     "data": [],
@@ -25,8 +25,8 @@
     "outputIdentifiers": [
       3
     ],
-    "x": 439,
-    "y": 196
+    "x": 405,
+    "y": 207
   },
   "3": {
     "data": [],
@@ -39,10 +39,14 @@
     "outputIdentifiers": [
       -2
     ],
-    "x": 739,
-    "y": 188
+    "x": 661,
+    "y": 209
   },
-  "zipFunctions": "C:\\Users\\Ethan\\Documents\\KNIT\\workflows\\models\\model1\\zipFunctions",
+  "zipFunctions": "KNIT\\workflows\\models\\model1\\zipFunctions",
   "socketQueue": [
+    1,
+    2,
+    3,
+    4
   ]
 }

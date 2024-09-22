@@ -60,7 +60,7 @@ class BaseNode(ABC):
             if identifier == -1:
                 self.__type = "START"
         for identifier in self.__outputIdentifiers:
-            if identifier == -2:
+            if identifier == -1:
                 self.__type = "END"
     
     def __str__(self):

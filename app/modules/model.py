@@ -30,7 +30,8 @@ class Model:
         
         # print(self.__data)
         for i in range(1, self.__data["nodes"]+1):
-            node = Node(requiresdata=False,
+            node = Node(requiresdata=self.__data[str(i)]["requiresdata"],
+                        data=self.__data[str(i)]["data"],
                         x=self.__data[str(i)]["x"],
                         y=self.__data[str(i)]["y"],
                         numinputs=self.__data[str(i)]["numinputs"],
@@ -119,6 +120,11 @@ class Model:
             if node.getFunction() == None:
                 allNodesZipped = False
                 print("<<<NODES MISSING ZIP FUNCTIONS!>>>")
+                return
+        for node in self.__nodes:
+            if node.requiresData() == 1 and node.getData() == []:
+                allNodesZipped = False
+                print("<<<STATIC INFORMATION MISSING FOR REQUIRED NODES>>>")
                 return
         if allNodesZipped:
             for node in self.__nodes:

@@ -1,14 +1,14 @@
 {
     "model-one-#0001": {
         "description": "An indexing test for Katherine's Node Interfacing Tool [KNIT]",
-        "path": "C:\\Users\\Ethan\\Documents\\KNIT\\workflows\\models\\model1\\model-one-workflow-one.json"
+        "path": "KNIT\\workflows\\models\\model1\\model-one-workflow-one.json"
     },
     "model-two-#0002": {
         "description": "Weather api actuator for retrieval augmented generation [RAG] of Katherine's responses",
-        "path": "C:\\Users\\Ethan\\Documents\\KNIT\\workflows\\models\\model2\\model-two-workflow-two.json"
+        "path": "KNIT\\workflows\\models\\model2\\model-two-workflow-two.json"
     },
     "model-three-#0003": {
         "description": "Generic RAG Engine [default info is directed from wikipedia]",
-        "path": ""
+        "path": "KNIT\\workflows\\models\\model3\\model-three-workflow-three.json"
     }
 }

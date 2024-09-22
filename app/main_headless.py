@@ -1,23 +1,12 @@
-from modules.knit_GUI import KnitGUI
+from modules.Knit_HEADLESS import HeadlessHorseman
 from modules.reader import Reader
 from modules.model import Model
 from modules.components.button import Button
 
 
-reader = Reader("C:/Users/Ethan/Documents/KNIT/workflows/models/model1/model-one-workflow-one.json")
+reader = Reader("KNIT\\workflows\\models\\model3\\model-three-workflow-three.json")
 reader.readModel()
 model = Model(reader)
 model.loadZipFunctions()
-model.executeWorkflow()
-
-
-
-# print(model)
-# model.loadZipFunctions()
-# for name in model.getFunctions().keys():
-#     function = model.getFunctions()[name]
-#     function()
-
-# for node in model.getNodes():
-#     print(node.getFunction())
-
+horseman = HeadlessHorseman(model)
+horseman.run()

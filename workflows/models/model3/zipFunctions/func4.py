@@ -1,0 +1,2 @@
+def returner(node):
+    pass
