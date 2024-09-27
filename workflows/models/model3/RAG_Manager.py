@@ -13,6 +13,7 @@ class RAGManager:
         self.__serverThread = None
         self.__toolKitThread = None
 
+
         self.startServerThread()
 
     def instantiateServer(self):
@@ -31,22 +32,29 @@ class RAGManager:
             method(category)
 
     def useTool(self, method_name, category):
-        toolThread = threading.Thread(target=self.startToolKitThread, args=(method_name, category))
-        toolThread.start()
-        toolThread.join() 
+        self.__toolKitThread = threading.Thread(target=self.startToolKitThread, args=(method_name, category))
+        self.__toolKitThread.start()
+        self.__toolKitThread.join() 
+
+    def killManager(self):
+        print("Deleting server instantiation...")
+        self.__server.killServer()
+        print("Complete!")
 
 
-manager = RAGManager()
-time.sleep(2.5)
 
 
-inputQuit = False
-while inputQuit == False:
-    currentInput = input("Enter category: ")
-    if currentInput == "" or currentInput == "quit":
-        inputQuit = True
-    else:
-        manager.useTool('fetchArticle', currentInput)
+# manager = RAGManager()
+# time.sleep(2.5)
+
+
+# inputQuit = False
+# while inputQuit == False:
+#     currentInput = input("Enter category: ")
+#     if currentInput == "" or currentInput == "quit":
+#         inputQuit = True
+#     else:
+#         manager.useTool('fetchArticle', currentInput)
 
 
         
