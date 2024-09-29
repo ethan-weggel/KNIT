@@ -1,8 +1,10 @@
 from RAG_Server import RAGZimServer
 from RAG_ToolKit import RAGToolKit
 import threading
+import multiprocessing
 import time
 import warnings
+import sys
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 class RAGManager:
@@ -12,7 +14,6 @@ class RAGManager:
 
         self.__serverThread = None
         self.__toolKitThread = None
-
 
         self.startServerThread()
 
@@ -37,24 +38,8 @@ class RAGManager:
         self.__toolKitThread.join() 
 
     def killManager(self):
-        print("Deleting server instantiation...")
         self.__server.killServer()
-        print("Complete!")
 
-
-
-
-# manager = RAGManager()
-# time.sleep(2.5)
-
-
-# inputQuit = False
-# while inputQuit == False:
-#     currentInput = input("Enter category: ")
-#     if currentInput == "" or currentInput == "quit":
-#         inputQuit = True
-#     else:
-#         manager.useTool('fetchArticle', currentInput)
 
 
         

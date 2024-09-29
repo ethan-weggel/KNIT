@@ -1,6 +1,6 @@
 
 
-def retriever():
+def retriever(searchCategory):
     import sys
     import os
     import time
@@ -12,12 +12,19 @@ def retriever():
 
     manager = RAGManager()
     staticPath = "E:\\wikipedia_en_all_nopic_2024-06.zim"
-    searchCategory = "History" 
+    # # searchCategory = "History" 
     manager.useTool("fetchArticle", searchCategory)
-    time.sleep(2)
     manager.killManager()
 
 
 
+# running = True
+# while running:
+#     currentSearch = input("Enter a search term (case sensitive): ")
+#     if currentSearch == "quit":
+#         running = False
+#         break
+#     else:
+#         retriever(currentSearch)
 
-retriever()
+retriever("History")

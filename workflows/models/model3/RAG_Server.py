@@ -11,9 +11,8 @@ class RAGZimServer:
 
     def startServer(self):
         self.__server.start()
-        print(f"__server started in background at http://localhost:{self.__port}__")
 
     def killServer(self):
-        self.__server.stop()
+        self.__server.stop_server()
 
-
+# server = RAGZimServer()

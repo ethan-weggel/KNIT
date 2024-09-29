@@ -1,7 +1,7 @@
 
 import requests
 from bs4 import BeautifulSoup
-import time
+import sys
 
 class RAGToolKit:
     def __init__(self, port=9454):
@@ -19,7 +19,6 @@ class RAGToolKit:
             return False
 
     def fetchArticle(self, articleTitle):
-        print('entered func')
         if not self.isServerRunning():
             print("Server is not running. Unable to fetch content.")
             return
@@ -34,3 +33,13 @@ class RAGToolKit:
             print(f"--- Article Content: {articleTitle} ---\n{contentsText}")
         except requests.exceptions.RequestException as e:
             print(f"Failed to retrieve article '{articleTitle}': {e}")
+
+
+# def runToolKitProcess(command, args):
+#     '''Command as a string, parse to attr'''
+#     toolKit = RAGToolKit()
+#     method = getattr(toolKit, command, None)
+#     if method:
+#         method(*args)
+
+# runToolKitProcess(sys.argv[1], sys.argv[2::])
