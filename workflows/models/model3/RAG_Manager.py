@@ -9,6 +9,7 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 class RAGManager:
     def __init__(self):
+
         self.__server = None
         self.__toolKit = RAGToolKit()
 
@@ -27,15 +28,17 @@ class RAGManager:
         self.__serverThread = threading.Thread(target=self.instantiateServer)
         self.__serverThread.start()
 
-    def startToolKitThread(self, method, category):
+    def startToolKitThread(self, method, category, variable):
         method = getattr(self.__toolKit, method, None)
         if method:
-            method(category)
+            return method(category,variable)
 
     def useTool(self, method_name, category):
-        self.__toolKitThread = threading.Thread(target=self.startToolKitThread, args=(method_name, category))
+        memory = None
+        self.__toolKitThread = threading.Thread(target=self.startToolKitThread, args=(method_name, category, memory))
         self.__toolKitThread.start()
         self.__toolKitThread.join() 
+        return memory
 
     def killManager(self):
         self.__server.killServer()

@@ -18,7 +18,7 @@ class RAGToolKit:
         except requests.exceptions.RequestException:
             return False
 
-    def fetchArticle(self, articleTitle):
+    def fetchArticle(self, articleTitle, memoryLocationForReturnValue):
         if not self.isServerRunning():
             print("Server is not running. Unable to fetch content.")
             return
@@ -30,7 +30,8 @@ class RAGToolKit:
             response.raise_for_status() 
 
             contentsText = self.extractTextFromHtml(response.content)
-            print(f"--- Article Content: {articleTitle} ---\n{contentsText}")
+            # print(f"--- Article Content: {articleTitle} ---\n{contentsText}")
+            memoryLocationForReturnValue = contentsText
         except requests.exceptions.RequestException as e:
             print(f"Failed to retrieve article '{articleTitle}': {e}")
 

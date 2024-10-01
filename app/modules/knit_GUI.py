@@ -21,7 +21,7 @@ class KnitGUI:
         self.__height = None
 
         self.__backgroundColor = (110, 106, 98)
-        self.__icon = pygame.image.load("KNIT/app/modules/assets/icon.png")
+        self.__icon = pygame.image.load("app/modules/assets/icon.png")
         self.__font = None
 
         self.__appRunning = True

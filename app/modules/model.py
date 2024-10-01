@@ -77,10 +77,18 @@ class Model:
             with open(filePath, 'r') as file:
                 functionText = file.read()
                 functionName = self.getfunctionName(functionText)
-                ##print(functionName)
+                # print(functionName)
                 try:
-                    exec(functionText, globals())
-                    parsedFunction = globals()[functionName]
+                    code_object = compile(functionText, filename=str(filePath), mode='exec')
+                
+                    # Create a temporary dictionary to store the code object (function definition)
+                    temp_globals = globals().copy()
+                    
+                    # Add the compiled code to the global namespace without executing
+                    exec(code_object, temp_globals)
+                    
+                    # Retrieve the function object from the temporary namespace
+                    parsedFunction = temp_globals.get(functionName)
                 except Exception as e:
                     print("Error parsing function:", e)
                 self.__functions[functionName] = parsedFunction

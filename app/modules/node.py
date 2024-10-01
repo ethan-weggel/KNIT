@@ -201,9 +201,9 @@ class Node(BaseNode):
     def receive(self):
         try:
             # test to see if received obj is iterable
-            iter(self.getReceived())
-            for element in self.getReceived():
-                self.addData(element)
+            self.addData(iter(self.getReceived())[0])
+            # for element in self.getReceived():
+            #     self.addData(element)
             # self.setReceived(None)
         except TypeError:
             # received obj is not iterable
