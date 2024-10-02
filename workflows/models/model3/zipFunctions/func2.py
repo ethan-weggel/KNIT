@@ -95,10 +95,11 @@ def retriever(node):
         def killManager(self):
             self.__server.killServer()
     
-    manager = RAGManager()
-    staticPath = "E:\\wikipedia_en_all_nopic_2024-06.zim"
-    text = manager.useTool("fetchArticle", str(node.getData()[0]))
-    manager.killManager()
-    return text
+    # manager = RAGManager()
+    # staticPath = "E:\\wikipedia_en_all_nopic_2024-06.zim"
+    # text = manager.useTool("fetchArticle", str(node.getData()[0]))
+    # manager.killManager()
+    print(node.getData())
+    return node.getData()
 
 
