@@ -47,6 +47,7 @@ def retriever(node):
                 # return memoryLocationForReturnValue
             except requests.exceptions.RequestException as e:
                 print(f"Failed to retrieve article '{articleTitle}': {e}")
+                return
     class RAGZimServer:
         def __init__(self, port=9454, path="E:\\wikipedia_en_all_nopic_2024-06.zim"):
             print("__starting .ZIM server for R.A.G. engine__")
@@ -95,11 +96,21 @@ def retriever(node):
         def killManager(self):
             self.__server.killServer()
     
-    # manager = RAGManager()
+    manager = RAGManager()
     # staticPath = "E:\\wikipedia_en_all_nopic_2024-06.zim"
     # text = manager.useTool("fetchArticle", str(node.getData()[0]))
-    # manager.killManager()
-    print(node.getData())
-    return node.getData()
+
+    returnData = [*node.getData()]
+
+    for key in node.getData()[1].keys():
+        value = node.getData()[1][key]
+        try:
+            returnData.append(manager.useTool("fetchArticle", str(value)))
+        except Exception:
+            continue
+
+
+    manager.killManager()
+    return returnData
 
 
