@@ -109,7 +109,6 @@ def retriever(node):
         except Exception:
             continue
 
-
     manager.killManager()
     return returnData
 
