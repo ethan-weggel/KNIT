@@ -1,14 +1,36 @@
-from modules.model import Model
-from modules.components.trace_render import TraceRender
-from modules.components.button import Button
-from modules.node import Node
+# from modules.model import Model
+# from modules.components.trace_render import TraceRender
+# from modules.components.button import Button
+# from modules.node import Node
 import pygame
 import os
+import sys
 
-from modules.components.node_render import NodeRender
+# from modules.components.node_render import NodeRender
 
+
+modelPath = os.path.dirname("C:\\Users\\Ethan\\Documents\\Katherine\\Katherine-Node-Interfacing-Tool\\KNIT\\app\\modules\\model.py")
+nodeRenderPath = os.path.dirname("C:\\Users\\Ethan\\Documents\\Katherine\\Katherine-Node-Interfacing-Tool\\KNIT\\app\\modules\\components\\node_render.py")
+nodePath = os.path.dirname("C:\\Users\\Ethan\\Documents\\Katherine\\Katherine-Node-Interfacing-Tool\\KNIT\\app\\modules\\node.py")
+tracePath = os.path.dirname("C:\\Users\\Ethan\\Documents\\Katherine\\Katherine-Node-Interfacing-Tool\\KNIT\\app\\modules\\components\\trace_render.py")
+socketRenderPath = os.path.dirname("C:\\Users\\Ethan\\Documents\\Katherine\\Katherine-Node-Interfacing-Tool\\KNIT\\app\\modules\\components\\socket_render.py")
+buttonPath = os.path.dirname("C:\\Users\\Ethan\\Documents\\Katherine\\Katherine-Node-Interfacing-Tool\\KNIT\\app\\modules\\components\\button.py")
+sys.path.insert(0, modelPath)
+sys.path.insert(0, nodeRenderPath)
+sys.path.insert(0, socketRenderPath)
+sys.path.insert(0, nodePath)
+sys.path.insert(0, tracePath)
+sys.path.insert(0, buttonPath)
+
+from model import Model
+from node_render import NodeRender
+from node import Node
+from trace_render import TraceRender
+from socket_render import SocketRender
+from button import Button
 
 class HeadlessHorseman:
+
     def __init__(self, model):
 
         self.__model = model

@@ -1,7 +1,14 @@
 import pygame
-from modules.components.node_render import NodeRender
+import sys
+import os
+# from modules.components.node_render import NodeRender
 
-class Button(NodeRender):
+nodeRenderPath = os.path.dirname("C:\\Users\\Ethan\\Documents\\Katherine\\Katherine-Node-Interfacing-Tool\\KNIT\\app\\modules\\components\\node_render.py")
+sys.path.insert(0, nodeRenderPath)
+
+import node_render
+
+class Button(node_render.NodeRender):
     __Id = 0
     def __init__(self, node, x, y, width, height, color=(0,0,0), secondaryColor=(255,255,255), text="BUTTON", textColor=(0,0,0), func=None):
         super().__init__(node, x, y, globalWidth=width, globalHeight=height)

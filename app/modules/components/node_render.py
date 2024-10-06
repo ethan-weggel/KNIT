@@ -1,5 +1,12 @@
 import pygame
-from modules.components.socket_render import SocketRender
+import os
+import sys
+# from modules.components.socket_render import SocketRender
+
+socketRenderPath = os.path.dirname("C:\\Users\\Ethan\\Documents\\Katherine\\Katherine-Node-Interfacing-Tool\\KNIT\\app\\modules\\components\\socket_render.py")
+sys.path.insert(0, socketRenderPath)
+
+from socket_render import SocketRender
 
 class NodeRender:
     __renderID = 1

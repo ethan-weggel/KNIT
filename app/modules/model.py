@@ -1,11 +1,11 @@
-from modules.node import Node
 from pathlib import Path
-import importlib
-import inspect
+import sys
 import os
 import re
 import threading
-
+nodePath = os.path.dirname("C:\\Users\\Ethan\\Documents\\Katherine\\Katherine-Node-Interfacing-Tool\\KNIT\\app\\modules\\node.py")
+sys.path.insert(0, nodePath)
+from node import Node
 class Model:
     __id = 1
     def __init__(self, reader):
