@@ -3,7 +3,7 @@ from modules.reader import Reader
 from modules.model import Model
 from modules.components.button import Button
 
-reader = Reader("workflows\\models\\model3\\model-three-workflow-three.json")
+reader = Reader("model-three-workflow-three.json")
 reader.readModel()
 model = Model(reader)
 model.loadZipFunctions()

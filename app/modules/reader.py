@@ -1,4 +1,5 @@
 import json
+import os
 
 class Reader:
     def __init__(self, filePath=""):
@@ -12,12 +13,14 @@ class Reader:
         return self.__path
     
     def readModel(self):
-        with open(self.__path, "r") as file:
-            self.__data = json.load(file)
-        # self.__data['nodes'] = 3
+        for dirpath, _, filenames in os.walk(".."):
+            if self.__path in filenames:
+                self.__workflowPath = os.path.join(dirpath, self.__path)
+                with open(self.__workflowPath, "r") as file:
+                    self.__data = json.load(file)
 
     def saveModel(self):
-        with open(self.__path, "w") as file:
+        with open(self.__workflowPath, "w") as file:
             json.dump(self.__data, file, indent=2)
 
     def getData(self):

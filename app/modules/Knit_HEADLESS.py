@@ -22,12 +22,12 @@ sys.path.insert(0, nodePath)
 sys.path.insert(0, tracePath)
 sys.path.insert(0, buttonPath)
 
-from model import Model
-from node_render import NodeRender
-from node import Node
-from trace_render import TraceRender
-from socket_render import SocketRender
-from button import Button
+from model import Model # type: ignore
+from node_render import NodeRender # type: ignore
+from node import Node # type: ignore
+from trace_render import TraceRender # type: ignore
+from socket_render import SocketRender # type: ignore
+from button import Button # type: ignore
 
 class HeadlessHorseman:
 

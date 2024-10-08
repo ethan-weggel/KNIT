@@ -1,19 +1,19 @@
 {
     "model-#00000001": {
         "description": "An indexing test for Katherine's Node Interfacing Tool [KNIT], only run this if I specifically requested this to be ran, otherwise skip it",
-        "path": "KNIT\\workflows\\models\\model1\\model-one-workflow-one.json"
+        "path": "model-one-workflow-one.json"
     },
     "model-#00000002": {
         "description": "Weather api actuator for Katherine's responses",
-        "path": "KNIT\\workflows\\models\\model2\\model-two-workflow-two.json"
+        "path": "model-two-workflow-two.json"
     },
     "model-#00000003": {
         "description": "Generic RAG Engine to provide more information about regular questions or specific queries",
-        "path": "KNIT\\workflows\\models\\model3\\model-three-workflow-three.json"
+        "path": "model-three-workflow-three.json"
     },
     "model-$00000004" : {
         "description": "Spotify API and controller for anything music related",
-        "path": "KNIT\\workflows\\models\\model4\\model-four-workflow-four.json"
+        "path": "model-four-workflow-four.json"
     }
 
 }
