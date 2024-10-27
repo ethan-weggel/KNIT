@@ -1,9 +1,8 @@
 def augmenter(node):
 
-    augmentedQuery = ""
+    augmentedQuery = "You are a system that is going to take a query and assess if a summarization needs to be made or if a specific question needs to be answered.\n"
+    augmentedQuery += "Then parse through the large body of text and see if there is any information to help you to do so. Here is the query followed by the informative text:\n"
     augmentedQuery += node.getData()[0][0]
-    augmentedQuery += "\n This query was run through a RAG Engine to try and gather any information about the topic."
-    augmentedQuery += "\n If any information was found, it will be below this line, use it to give a more informed answer to the query if applicable, otherwise, answer to the best of your ability: "
 
     for entry in node.getData()[2::]:
         for article in entry:

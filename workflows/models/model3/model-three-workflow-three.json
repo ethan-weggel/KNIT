@@ -1,9 +1,7 @@
 {
   "nodes": 4,
   "1": {
-    "data": [
-      "What can you tell me about the myth the Headless Horseman?"
-    ],
+    "data": [],
     "numinputs": 1,
     "numoutputs": 1,
     "requiresdata": 1,

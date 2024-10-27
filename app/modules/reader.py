@@ -17,6 +17,7 @@ class Reader:
             if self.__path in filenames:
                 self.__workflowPath = os.path.join(dirpath, self.__path)
                 with open(self.__workflowPath, "r") as file:
+                    print("Found workflow file")
                     self.__data = json.load(file)
 
     def saveModel(self):
